@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useFetch from './hooks/useFetch';
 
 import FiltersHeader from './components/FiltersHeader';
@@ -10,8 +10,14 @@ function App() {
   const { loading, data } = useFetch('https://swapi.dev/api/planets');
   // console.log(data);
 
+  const [nameFilter, setNameFilter] = useState('');
+
+  const handleChange = ({ target }) => {
+    setNameFilter(target.value);
+  };
+
   return (
-    <PlanetsContext.Provider value={ data }>
+    <PlanetsContext.Provider value={ { data, nameFilter, handleChange } }>
       <main>
         <FiltersHeader />
         { loading && <h1>Carregando...</h1> }

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const data = useContext(PlanetsContext);
+  const { data, nameFilter } = useContext(PlanetsContext);
   const keys = Object.keys(data[0]);
   // .filter((rmv) => rmv !== 'residents');
   console.log(data);
@@ -15,11 +15,13 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((d) => (
-          <tr key={ d.name }>
-            { keys.map((ke) => <td key={ d[ke] }>{d[ke]}</td>)}
-          </tr>
-        ))}
+        {data
+          .filter((fil) => fil.name.includes(nameFilter))
+          .map((d) => (
+            <tr key={ d.name }>
+              { keys.map((ke) => <td key={ d[ke] }>{d[ke]}</td>)}
+            </tr>
+          ))}
       </tbody>
     </table>
   );
