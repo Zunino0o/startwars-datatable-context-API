@@ -10,18 +10,26 @@ function App() {
   const { loading, data } = useFetch('https://swapi.dev/api/planets');
   // console.log(data);
 
-  const [columns, setColumns] = useState([
+  const ALL_COLUMNS = [
     'population',
     'orbital_period',
     'diameter',
     'rotation_period',
     'surface_water',
-  ]);
+  ];
+
+  const [columns, setColumns] = useState(ALL_COLUMNS);
+
   const [nameFilter, setNameFilter] = useState('');
+
   const [columnFilter, setColumnFilter] = useState(columns[0]);
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
   const [headerFilter, setHeaderFilter] = useState([]);
+
+  const [columnSort, setColumnSort] = useState('population');
+  const [columnSortInput, setColumnSortInput] = useState('');
+  const [sort, setSort] = useState(false);
 
   const handleChange = ({ target }) => {
     switch (target.className) {
@@ -31,6 +39,12 @@ function App() {
       return setComparisonFilter(target.value);
     case 'value-filter':
       return setValueFilter(target.value);
+    case 'column-sort':
+      return setColumnSort(target.value);
+    case 'column-sort-input-asc':
+      return setColumnSortInput(target.value);
+    case 'column-sort-input-desc':
+      return setColumnSortInput(target.value);
     default:
       setNameFilter(target.value);
     }
@@ -51,6 +65,12 @@ function App() {
 
   const clearFilters = () => {
     setHeaderFilter([]);
+    setColumns(ALL_COLUMNS);
+  };
+
+  const handleSort = () => {
+    setSort({ order: { column: columnSort, sort: columnSortInput } });
+    console.log(Number(data[0].climate));
   };
 
   const context = {
@@ -62,6 +82,9 @@ function App() {
     handleHeaderFilter,
     handleChange,
     clearFilters,
+    sort,
+    handleSort,
+    ALL_COLUMNS,
   };
 
   return (

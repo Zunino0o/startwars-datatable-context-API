@@ -7,6 +7,7 @@ export default function Table() {
     data,
     nameFilter,
     headerFilter,
+    sort,
   } = useContext(PlanetsContext);
 
   const keys = Object.keys(data[0]);
@@ -41,34 +42,60 @@ export default function Table() {
         {data
           .filter((fil) => fil.name.toLowerCase().includes(nameFilter.toLowerCase()))
           .filter((elm) => filtFunc(elm))
+          .sort((a, b) => {
+            if (sort) {
+              const num1 = a[sort.order.column];
+              const num2 = b[sort.order.column];
+              const SORT1 = 1;
+              const SORT_1 = -1;
+              console.log(num1, num2);
+              // check for num vs string
+              if (num1 === 'unknown' || num2 === 'unknown') {
+                if (num2 === 'unknown') {
+                  return SORT_1;
+                }
+                // check for string vs num
+                if (num1 === 'unknown') {
+                  return SORT1;
+                }
+              }
+              if (typeof num1 === 'number' && typeof num2 === 'number') {
+                return a - b;
+              }
+
+              // switch (sort.order.sort) {
+              // case 'ASC':
+              //   return num1 - num2;
+              // case 'DESC':
+              //   return num2 - num1;
+              // default:
+              //   return true;
+              // }
+            }
+            return a;
+          })
+          .sort((a, b) => {
+            if (sort) {
+              switch (sort.order.sort) {
+              case 'ASC':
+                return Number(a[sort.order.column]) - Number(b[sort.order.column]);
+              case 'DESC':
+                return Number(b[sort.order.column]) - Number(a[sort.order.column]);
+              default:
+                return true;
+              }
+            }
+            return a;
+          })
         //   .forEach((log) => console.log(log))
           .map((d) => (
             <tr key={ d.name }>
-              { keys.map((ke) => <td key={ d[ke] }>{d[ke]}</td>)}
+              { keys.map((ke) => (ke === 'name'
+                ? <td data-testid="planet-name" key={ d[ke] }>{d[ke]}</td>
+                : <td key={ d[ke] }>{d[ke]}</td>))}
             </tr>
           ))}
       </tbody>
     </table>
   );
 }
-
-// Table.propTypes = {
-//   data: PropTypes.shape(
-//     PropTypes.shape({
-//       name: PropTypes.string,
-//       rotation_period: PropTypes.string,
-//       orbital_period: PropTypes.string,
-//       diameter: PropTypes.string,
-//       climate: PropTypes.string,
-//       gravity: PropTypes.string,
-//       terrain: PropTypes.string,
-//       surface_water: PropTypes.string,
-//       population: PropTypes.string,
-//       films: PropTypes.arrayOf('string'),
-//       created: PropTypes.string,
-//       edited: PropTypes.string,
-//       url: PropTypes.string,
-//     }),
-//   ).isRequired,
-
-// };
