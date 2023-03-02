@@ -3,10 +3,33 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { data, nameFilter } = useContext(PlanetsContext);
+  const {
+    data,
+    nameFilter,
+    headerFilter,
+  } = useContext(PlanetsContext);
+
   const keys = Object.keys(data[0]);
-  // .filter((rmv) => rmv !== 'residents');
-  console.log(data);
+
+  const filtFunc = (el) => {
+    const bool = headerFilter
+      .map((f) => {
+        switch (f.comparisonFilter) {
+        case 'maior que':
+          return Number(el[f.columnFilter]) > Number(f.valueFilter);
+        case 'menor que':
+          return Number(el[f.columnFilter]) < Number(f.valueFilter);
+        case 'igual a':
+          return Number(el[f.columnFilter]) === Number(f.valueFilter);
+        default:
+          return true;
+        }
+      });
+    // console.log(bool);
+    return bool.every((b) => b);
+  };
+  //   console.log(filtFunc(data));
+
   return (
     <table>
       <thead>
@@ -16,7 +39,9 @@ export default function Table() {
       </thead>
       <tbody>
         {data
-          .filter((fil) => fil.name.includes(nameFilter))
+          .filter((fil) => fil.name.toLowerCase().includes(nameFilter.toLowerCase()))
+          .filter((elm) => filtFunc(elm))
+        //   .forEach((log) => console.log(log))
           .map((d) => (
             <tr key={ d.name }>
               { keys.map((ke) => <td key={ d[ke] }>{d[ke]}</td>)}
