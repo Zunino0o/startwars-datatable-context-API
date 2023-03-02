@@ -49,6 +49,10 @@ function App() {
     setColumns([...columns, cF]);
   };
 
+  const clearFilters = () => {
+    setHeaderFilter([]);
+  };
+
   const context = {
     data,
     columns,
@@ -57,6 +61,7 @@ function App() {
     headerFilter,
     handleHeaderFilter,
     handleChange,
+    clearFilters,
   };
 
   return (

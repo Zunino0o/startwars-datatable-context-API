@@ -9,6 +9,7 @@ export default function FiltersHeader() {
     handleHeaderFilter,
     columns,
     setHeaderFilter,
+    clearFilters,
   } = useContext(PlanetsContext);
 
   return (
@@ -58,7 +59,7 @@ export default function FiltersHeader() {
       <button
         type="button"
         data-testid="button-remove-filters"
-        onClick={ () => setHeaderFilter([]) }
+        onClick={ clearFilters }
       >
         RESET FILTERS
       </button>
