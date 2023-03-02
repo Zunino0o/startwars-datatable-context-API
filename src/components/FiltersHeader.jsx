@@ -3,7 +3,12 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function FiltersHeader() {
-  const { handleChange, valueFilter, handleHeaderFilter } = useContext(PlanetsContext);
+  const {
+    handleChange,
+    valueFilter,
+    handleHeaderFilter,
+    columns,
+  } = useContext(PlanetsContext);
 
   return (
     <form>
@@ -19,11 +24,11 @@ export default function FiltersHeader() {
         data-testid="column-filter"
         onChange={ handleChange }
       >
-        <option value="population" selected>population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          columns.map((c) => (
+            <option key={ c } value={ c }>{c}</option>
+          ))
+        }
       </select>
       <select
         className="comparison-filter"

@@ -15,6 +15,13 @@ function App() {
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
   const [headerFilter, setHeaderFilter] = useState([]);
+  const [columns, setColumns] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const handleChange = ({ target }) => {
     switch (target.className) {
@@ -31,10 +38,17 @@ function App() {
 
   const handleHeaderFilter = () => {
     setHeaderFilter([...headerFilter, { columnFilter, comparisonFilter, valueFilter }]);
+    setColumns(columns.filter((c) => c !== columnFilter));
+  };
+
+  const deleteFilters = (cF) => {
+    setHeaderFilter(headerFilter.filter((h) => h.columnFilter !== cF));
+    setColumns([...columns, cF]);
   };
 
   const context = {
     data,
+    columns,
     nameFilter,
     valueFilter,
     headerFilter,
@@ -49,13 +63,19 @@ function App() {
         {
           headerFilter.length > 0
             ? headerFilter.map((h) => (
-              <span
-                key={ h.columnFilter }
-              >
-                { h.columnFilter }
-                { h.comparisonFilter }
-                { h.valueFilter }
-              </span>
+              <div key={ h.columnFilter } data-testid="filter">
+                <span>
+                  { h.columnFilter }
+                  { h.comparisonFilter }
+                  { h.valueFilter }
+                </span>
+                <button
+                  type="button"
+                  onClick={ () => deleteFilters(h.columnFilter) }
+                >
+                  X
+                </button>
+              </div>
             ))
             : ''
         }
