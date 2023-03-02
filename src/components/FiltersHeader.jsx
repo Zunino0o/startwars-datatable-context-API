@@ -8,6 +8,7 @@ export default function FiltersHeader() {
     valueFilter,
     handleHeaderFilter,
     columns,
+    setHeaderFilter,
   } = useContext(PlanetsContext);
 
   return (
@@ -52,6 +53,14 @@ export default function FiltersHeader() {
         onClick={ handleHeaderFilter }
       >
         FILTRAR
+      </button>
+      <br />
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ () => setHeaderFilter([]) }
+      >
+        RESET FILTERS
       </button>
     </form>
   );

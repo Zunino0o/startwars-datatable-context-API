@@ -10,11 +10,6 @@ function App() {
   const { loading, data } = useFetch('https://swapi.dev/api/planets');
   // console.log(data);
 
-  const [nameFilter, setNameFilter] = useState('');
-  const [columnFilter, setColumnFilter] = useState('population');
-  const [comparisonFilter, setComparisonFilter] = useState('maior que');
-  const [valueFilter, setValueFilter] = useState(0);
-  const [headerFilter, setHeaderFilter] = useState([]);
   const [columns, setColumns] = useState([
     'population',
     'orbital_period',
@@ -22,6 +17,11 @@ function App() {
     'rotation_period',
     'surface_water',
   ]);
+  const [nameFilter, setNameFilter] = useState('');
+  const [columnFilter, setColumnFilter] = useState(columns[0]);
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
+  const [valueFilter, setValueFilter] = useState(0);
+  const [headerFilter, setHeaderFilter] = useState([]);
 
   const handleChange = ({ target }) => {
     switch (target.className) {
@@ -39,6 +39,9 @@ function App() {
   const handleHeaderFilter = () => {
     setHeaderFilter([...headerFilter, { columnFilter, comparisonFilter, valueFilter }]);
     setColumns(columns.filter((c) => c !== columnFilter));
+    setColumnFilter(columns[0]);
+    setComparisonFilter('maior que');
+    setValueFilter(0);
   };
 
   const deleteFilters = (cF) => {
