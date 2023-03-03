@@ -42,7 +42,7 @@ export default function FiltersHeader() {
           data-testid="comparison-filter"
           onChange={ handleChange }
         >
-          <option value="maior que" selected>maior que</option>
+          <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
         </select>

@@ -49,12 +49,10 @@ export default function Table() {
               const SORT1 = 1;
               const SORT_1 = -1;
               console.log(num1, num2);
-              // check for num vs string
               if (num1 === 'unknown' || num2 === 'unknown') {
                 if (num2 === 'unknown') {
                   return SORT_1;
                 }
-                // check for string vs num
                 if (num1 === 'unknown') {
                   return SORT1;
                 }
@@ -62,15 +60,6 @@ export default function Table() {
               if (typeof num1 === 'number' && typeof num2 === 'number') {
                 return a - b;
               }
-
-              // switch (sort.order.sort) {
-              // case 'ASC':
-              //   return num1 - num2;
-              // case 'DESC':
-              //   return num2 - num1;
-              // default:
-              //   return true;
-              // }
             }
             return a;
           })
