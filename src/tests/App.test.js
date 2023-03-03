@@ -41,24 +41,18 @@ describe("teste no app", () => {
       expect(screen.queryAllByTestId("planet-name")).toHaveLength(10)
     })
 
-    const column = screen.getByTestId("column-filter")
-    const comparison = screen.getByTestId("comparison-filter")
-    const value = screen.getByTestId("value-filter")
+    userEvent.selectOptions(screen.getByTestId("column-filter"), "rotation_period")
+    userEvent.selectOptions(screen.getByTestId("comparison-filter"), "menor que")
+    userEvent.type(screen.getByTestId("value-filter"), "20")
 
-    userEvent.selectOptions(column, "rotation_period")
-    userEvent.selectOptions(comparison, "menor que")
-    userEvent.type(value, "20")
-
-    const button = screen.getByTestId("button-filter")
-    fireEvent.click(button)
+    fireEvent.click(screen.getByTestId("button-filter"))
 
     await waitFor(() => {
       expect(screen.getByTestId('filter')).toBeInTheDocument()
     })
     expect(screen.getByTestId('filter')).toHaveTextContent("rotation_period")
 
-    const reset = screen.getByRole('button', {name: /reset filters/i})
-    fireEvent.click(reset)
+    fireEvent.click(screen.getByRole('button', {name: /reset filters/i}))
 
     await waitFor(() => {
       expect(screen.queryAllByTestId("planet-name")).toHaveLength(10)
@@ -80,27 +74,22 @@ describe("teste no app", () => {
       expect(screen.queryAllByTestId("planet-name")).toHaveLength(10)
     })
 
-    const column = screen.getByTestId("column-filter")
-    const comparison = screen.getByTestId("comparison-filter")
-    const value = screen.getByTestId("value-filter")
+    userEvent.selectOptions(screen.getByTestId("column-filter"), "rotation_period")
+    userEvent.selectOptions(screen.getByTestId("comparison-filter"), "menor que")
+    userEvent.type(screen.getByTestId("value-filter"), "20")
 
-    userEvent.selectOptions(column, "rotation_period")
-    userEvent.selectOptions(comparison, "menor que")
-    userEvent.type(value, "20")
-
-    const button = screen.getByTestId("button-filter")
-    fireEvent.click(button)
+    fireEvent.click(screen.getByTestId("button-filter"))
 
     await waitFor(() => {
       expect(screen.getByTestId('filter')).toBeInTheDocument()
     })
     expect(screen.getByTestId('filter')).toHaveTextContent("rotation_period")
 
-    userEvent.selectOptions(column, "orbital_period")
-    userEvent.selectOptions(comparison, "maior que")
-    userEvent.type(value, "1000")
+    userEvent.selectOptions(screen.getByTestId("column-filter"), "orbital_period")
+    userEvent.selectOptions(screen.getByTestId("comparison-filter"), "maior que")
+    userEvent.type(screen.getByTestId("value-filter"), "1000")
 
-    userEvent.click(button)
+    userEvent.click(screen.getByTestId("button-filter"))
 
     await waitFor(() => {
       expect(screen.getAllByTestId('filter')).toHaveLength(2)
